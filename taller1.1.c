@@ -1,8 +1,8 @@
 #include <stdio.h>
 
 int main() {
-    float suma = 0, cantidad = 0, promedio, mayor = 0, menor = 7, aritmetica, suma_total = 0, suma_diferencias, desviacion, d;
-    int i, nota;
+    float suma = 0, cantidad = 0, promedio, mayor = 0, menor = 7, aritmetica, suma_total = 0, suma_diferencias = 0, desviacion, d;
+    int i = 0, nota;
     float notas[100];
     printf("\nEscribe 0 cuando termines de ingresar las notas\n\n");
     while (1) {  //bucle infinito
@@ -44,6 +44,7 @@ int main() {
     while (d * d < desviacion) {
         d = d + 0.000001;
     }
+    printf("\n\nRESULTADOS\n\n");
     printf("\nEl promedio es %f\n", promedio);
     printf("\nLa nota mas grande es %f\n", mayor);
     printf("\nLa nota mas chica es %f\n", menor);
