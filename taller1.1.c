@@ -35,4 +35,6 @@ int main() {
     printf("La nota más chica es %f", menor);
     
     return 0; //salir del programa
+
+    //franco eri puro weon
 }
