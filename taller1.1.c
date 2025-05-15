@@ -1,11 +1,13 @@
 #include <stdio.h>
 
 int main() {
-    float suma = 0, cantidad = 0, nota, promedio, mayor, menor, aritmetica, suma_total = 0;
+    float suma = 0, cantidad = 0, promedio, mayor, menor, aritmetica, suma_total = 0, suma_diferencias = 0;
+    int C, i, nota;
+    float notas[100];
     printf("Escribe 0 cuando termines de ingresar las notas");
     while (1) {  //bucle infinito
         printf("Escribe un número: ");
-        scanf("%f", & nota); //leer nota
+        scanf("%d", & nota); //leer nota
         if (nota == 0) {
             break; // Salir del bucle si se ingresa 0
         }
@@ -27,6 +29,13 @@ int main() {
          else if (nota < 0) {
             printf("Nota invalida. Debe ser numeros entre 1 y 7\n"); //mensaje de error
         }  
+        if (i >= 100) {
+            printf("se ha llegado al maximo de notas\n"); //mensaje de error
+        }
+        
+    }
+    for(i = 0; i < C; i++){
+        suma_diferencias += (notas[i] - promedio) * (notas[i] - promedio);
     }
     promedio = suma / cantidad; //calcular promedio
     suma_total = suma_total + (nota - promedio) * (nota - promedio); 
