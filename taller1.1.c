@@ -42,8 +42,5 @@ int main() {
     printf("El promedio es %f", promedio);
     printf("La nota más grande es %f", mayor);
     printf("La nota más chica es %f", menor);
-    
     return 0; //salir del programa
-
-    //franco eri puro weon
 }
