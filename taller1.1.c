@@ -22,6 +22,8 @@ int main() {
             menor = nota; //nota menor
           }
           cantidad++; //suamr uno a la cantidad de notas totales
+          notas[i] = nota; //guardar nota en array
+          i++;  
         }
          else if (nota > 7) {
             printf("\nNota invalida. Debe ser numeros entre 1 y 7\n"); //mensaje de error
@@ -30,16 +32,16 @@ int main() {
             printf("\nNota invalida. Debe ser numeros entre 1 y 7\n"); //mensaje de error
         }  
         if ( cantidad >= 100) {
-            printf("\nse ha llegado al maximo de notas\n"); //mensaje de error
+            printf("\nse ha llegado al maximo de notas\n"); //mensaje de errors
         }
     }
     promedio = suma / cantidad; //calcular promedio
     for(i = 0; i < cantidad; i++){
         suma_diferencias += (notas[i] - promedio) * (notas[i] - promedio);
     }
-    desviacion = suma_diferencias / cantidad;
+    desviacion = suma_diferencias / cantidad; 
     d = 0;
-    while (d* d < desviacion) {
+    while (d * d < desviacion) {
         d = d + 0.000001;
     }
     printf("\nEl promedio es %f\n", promedio);
