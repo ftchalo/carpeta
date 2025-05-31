@@ -13,6 +13,7 @@ int main()  {
 
     char dv_calculado = calcular_dv(rut_digitos);
 
+
     printf("Digito verificador calculado: %c\n", dv_calculado);
     printf("Digito verificador ingresado: %d\n", digito_verificador);
 
@@ -46,21 +47,27 @@ void separar_rut(int rut, int rut_digitos[]) {
 
 char calcular_dv(int rut_digitos[]) {
     int suma = 0;
-    int n = 2;
+    int multiplicador = 2;
+
     for (int i = 0; i < MAX; i++) {
-        suma += rut_digitos[i] * n;
-        n++;
-        if (n > 7) {
-            n = 2;   
-        } 
+        suma += rut_digitos[i] * multiplicador;
+        multiplicador++;
+        if (multiplicador > 7) {
+            multiplicador = 2;
+        }
     }
+
+    int parte_entera;
+    parte_entera = suma % 11;
     int resto;
-    resto = 11 - (suma % 11);
-    if (resto == 11){
-      return '0';  
-    } 
-    if (resto == 10) {
-       return 'K'; 
-    } 
-    return resto + '0';
+    resto = suma - (parte_entera * 11);
+    int resultado;
+    resultado = 11 - resto;
+
+    if (resultado == 11)
+        return '0';
+    else if (resultado == 10)
+        return 'K';
+    else
+        return resultado + '0';
 }
