@@ -58,7 +58,7 @@ char calcular_dv(int rut_digitos[]) {
     }
 
     int parte_entera;
-    parte_entera = suma % 11;
+    parte_entera = suma / 11;
     int resto;
     resto = suma - (parte_entera * 11);
     int resultado;
