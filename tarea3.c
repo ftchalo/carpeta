@@ -50,10 +50,17 @@ char calcular_dv(int rut_digitos[]) {
     for (int i = 0; i < MAX; i++) {
         suma += rut_digitos[i] * n;
         n++;
-        if (n > 7) n = 2;
+        if (n > 7) {
+            n = 2;   
+        } 
     }
-    int resto = 11 - (suma % 11);
-    if (resto == 11) return '0';
-    if (resto == 10) return 'K';
+    int resto;
+    resto = 11 - (suma % 11);
+    if (resto == 11){
+      return '0';  
+    } 
+    if (resto == 10) {
+       return 'K'; 
+    } 
     return resto + '0';
 }
