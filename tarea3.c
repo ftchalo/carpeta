@@ -73,6 +73,4 @@ char calcular_dv(int rut_digitos[]) {
     if (resultado < 10){
         return resultado + '0';
     }
-    
-
 }
