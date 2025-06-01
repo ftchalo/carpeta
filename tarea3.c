@@ -64,10 +64,15 @@ char calcular_dv(int rut_digitos[]) {
     int resultado;
     resultado = 11 - resto;
 
-    if (resultado == 11)
+    if (resultado == 11){
         return '0';
-    else if (resultado == 10)
+    }
+    if (resultado == 10){
         return 'K';
-    else
+    }
+    if (resultado < 10){
         return resultado + '0';
+    }
+    
+
 }
