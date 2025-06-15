@@ -20,34 +20,52 @@ int preguntar_numero (int n) {
     FILE *arch;
     arch = fopen("arreglo.txt", "r");
     if (arch == NULL) {
-        printf("Error al abrir el archivo.\n");
+        arch = fopen("tatata/arreglo.txt", "r");
     }
-    else {
+    if (arch == NULL) {
+        printf("Error al abrir el archivo.\n");
+    } else {
         while (fscanf(arch, "%d", &num[n]) == 1 && n < MAX) {
             printf ("%d\n", num[n]);
             n++;
         }
+        fclose(arch);
     }
-    fclose(arch);
     return n;
 }
 
 void buscar_repetidos(int n) {
-    int hay_repetidos[MAX], j = 0, i = 0, contador[MAX];
-    printf("-------------------------------\n");
-    for (i = 0; i < n; i++) {
-        for (j = i + 1; j < n; j++) {
-            if (num[i] == num[j]) {
-                hay_repetidos[j] = num[i];
-                
-                contador[j]++;
-            }
+    int unicos[MAX];
+    int contador[MAX];
+    int total_unicos = 0;
 
+    for (int i = 0; i < MAX; i++) {
+        contador[i] = 0;
+    }
+
+    printf("-------------------------------\n");
+
+    for (int i = 0; i < n; i++) {
+        int indice = -1;
+        for (int j = 0; j < total_unicos; j++) {
+            if (unicos[j] == num[i]) {
+                indice = j;
+                break;
+            }
+        }
+
+        if (indice == -1) {
+            unicos[total_unicos] = num[i];
+            contador[total_unicos] = 1;
+            total_unicos++;
+        } else {
+            contador[indice]++;
         }
     }
-    for (j = 0; j < n; j++) {
-        if (hay_repetidos[j]) {
-            printf("El numero %d esta repetido  %d veces.\n", hay_repetidos[j], contador);
+
+    for (int i = 0; i < total_unicos; i++) {
+        if (contador[i] > 1) {
+            printf("El numero %d esta repetido %d veces.\n", unicos[i], contador[i]);
         }
     }
 }
