@@ -63,21 +63,37 @@ void inicializa_alfabeto(char *alfabeto){
 
 void codificar(char *original, char *codificado, char *alfabeto, int n){
     int i, j, z;
-    int intercumunicador[100];
-
+    //primera codificacion
     for (i = 2; i < (strlen(original) + 2); i++) {
         for (j = 0; j < (strlen(alfabeto)); j++) {
             if (original[i] == alfabeto[j]) {
-                intercumunicador[i] = alfabeto[j - n];
-                
+                z = j - n;
+                if (z < 0) {
+                    z = z + 47;
+                }
+                codificado[i] = alfabeto[z];
             }
         }
     }
-
     printf("Mensaje codificado: ");
-    printf("%c", original[0]);
-    printf("%c", original[1]);
-    for (i = 2; i < (strlen(original) + 2); i++) {
-        printf("%c", intercumunicador[i]);
+    codificado[0] = n + '0';
+    codificado[1] = '#';
+    for (i = 0; i < (strlen(original) - 1); i++) {
+        printf("%c", codificado[i]);
     }
+    //segunda codificacion
+    for (i = 2; i < (strlen(original) + 2); i++) {
+        if ((codificado[i]) % 2 == 0) {
+            z = (codificado[i]) - n;
+            if (z < 0) {
+                z = z + 47;
+            }
+            codificado[i] = alfabeto[z];
+        } 
+    }
+        printf("\nMensaje codificado segunda vez: ");
+        for (i = 0; i < (strlen(original) - 1); i++) {
+        printf("%c", codificado[i]);
+    }
+
 }
