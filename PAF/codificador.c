@@ -62,13 +62,17 @@ void inicializa_alfabeto(char *alfabeto){
 }
 
 void codificar(char *original, char *codificado, char *alfabeto, int n){
-    int i, j, z;
+    int i, j, z, k = n;
+
+    if (n> 47) {
+        k = n % 47; // Asegura que n esté dentro del rango del alfabeto
+    }
     //primera codificacion
     for (i = 2; i < (strlen(original) + 2); i++) {
         for (j = 0; j < (strlen(alfabeto)); j++) {
             if (original[i] == alfabeto[j]) {
-                z = j - n;
-                if (z < 0) {
+                z = j - k;
+                while (z < 0) {
                     z = z + 47;
                 }
                 codificado[i] = alfabeto[z];
@@ -76,24 +80,36 @@ void codificar(char *original, char *codificado, char *alfabeto, int n){
         }
     }
     printf("Mensaje codificado: ");
-    codificado[0] = n + '0';
+    codificado[0] = n;
     codificado[1] = '#';
-    for (i = 0; i < (strlen(original) - 1); i++) {
-        printf("%c", codificado[i]);
-    }
-    //segunda codificacion
-    for (i = 2; i < (strlen(original) + 2); i++) {
-        if ((codificado[i]) % 2 == 0) {
-            z = (codificado[i] - '0') - n;
-            if (z < 0) {
-                z = z + 47;
-            }
-            codificado[i] = alfabeto[z];
-        } 
-    }
-        printf("\nMensaje codificado segunda vez: ");
-        for (i = 0; i < (strlen(original) - 1); i++) {
+    printf("%d", n);
+    for (i = 1; i < (strlen(original)); i++) {
         printf("%c", codificado[i]);
     }
 
+    //segunda codificacion
+    for (i = 2; i < (strlen(codificado) + 2); i++) {
+        for (j = 0; j < (strlen(alfabeto)); j++) {
+            if (codificado[i] == alfabeto[j]) {
+                if(j % 2 == 0){
+                    z = j - k;
+                    while (z < 0) {
+                    z = z + 47;
+                    }
+                    codificado[i] = alfabeto[z];
+
+                }
+                
+                
+            }
+        }
+    }
+    
+    printf("\nMensaje codificado segunda vez: ");
+    printf("%d", n);
+        for (i = 1; i < (strlen(original)); i++) {
+        printf("%c", codificado[i]);
+    }
+
+    
 }
