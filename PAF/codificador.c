@@ -84,7 +84,7 @@ void codificar(char *original, char *codificado, char *alfabeto, int n){
     //segunda codificacion
     for (i = 2; i < (strlen(original) + 2); i++) {
         if ((codificado[i]) % 2 == 0) {
-            z = (codificado[i]) - n;
+            z = (codificado[i] - '0') - n;
             if (z < 0) {
                 z = z + 47;
             }
