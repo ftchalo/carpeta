@@ -93,19 +93,15 @@ void codificar(char *original, char *codificado, char *alfabeto, int n){
     }
 
     //segunda codificacion
-    for (i = contador + 1; i < (strlen(codificado) + 2); i++) {
-        for (j = 0; j < (strlen(alfabeto)); j++) {
-            if (codificado[i] == alfabeto[j]) {
-                if(j % 2 == 0){
-                    z = j - k;
-                    while (z < 0) {
+     for (i = contador + 1; i < (strlen(original) + 2); i++) {
+        for (j = 0; j < 47; j++) {
+            if (codificado[i] == alfabeto[j] && (j % 2 == 0)) {
+                z = j - k;
+                if (z < 0) {
                     z = z + 47;
-                    }
-                    codificado[i] = alfabeto[z];
-
                 }
-                
-                
+                codificado[i] = alfabeto[z];
+                break;
             }
         }
     }
