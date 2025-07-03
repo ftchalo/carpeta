@@ -13,7 +13,6 @@ int main(){
     int N = 0;
 
     lee_original(original, &N);
-    //printf("n: %d\n", N);
     inicializa_alfabeto(alfabeto);
     codificar(original, codificado, alfabeto, N);
     //graba_mensaje(codificado);
@@ -62,15 +61,14 @@ void inicializa_alfabeto(char *alfabeto){
 }
 
 void codificar(char *original, char *codificado, char *alfabeto, int n){
+
+
     int i = 0, j, z, k = n, contador = 0;
 
     while (original[i] >= '0' && original[i] <= '9') { 
         contador++;
         i++;
     }
-
-    printf("contador: %d\n", contador);
-
     if (n> 47) {
         k = n % 47; // Asegura que n esté dentro del rango del alfabeto
     }
