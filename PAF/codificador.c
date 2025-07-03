@@ -62,13 +62,20 @@ void inicializa_alfabeto(char *alfabeto){
 }
 
 void codificar(char *original, char *codificado, char *alfabeto, int n){
-    int i, j, z, k = n;
+    int i = 0, j, z, k = n, contador = 0;
+
+    while (original[i] >= '0' && original[i] <= '9') { 
+        contador++;
+        i++;
+    }
+
+    printf("contador: %d\n", contador);
 
     if (n> 47) {
         k = n % 47; // Asegura que n esté dentro del rango del alfabeto
     }
     //primera codificacion
-    for (i = 2; i < (strlen(original) + 2); i++) {
+    for (i = contador + 1; i < (strlen(original) + 2); i++) {
         for (j = 0; j < (strlen(alfabeto)); j++) {
             if (original[i] == alfabeto[j]) {
                 z = j - k;
@@ -88,7 +95,7 @@ void codificar(char *original, char *codificado, char *alfabeto, int n){
     }
 
     //segunda codificacion
-    for (i = 2; i < (strlen(codificado) + 2); i++) {
+    for (i = contador + 1; i < (strlen(codificado) + 2); i++) {
         for (j = 0; j < (strlen(alfabeto)); j++) {
             if (codificado[i] == alfabeto[j]) {
                 if(j % 2 == 0){
