@@ -25,23 +25,23 @@ int main(){
     graba_mensaje(codificado);
     return 0;
 }
+
 void lee_original(char *original, int *n){
     int i = 0;
     *n = 0;
-    FILE *file = fopen("original.txt", "r");
+    FILE *file = fopen("codificado.txt", "r");
     fgets(original, 100, file);
     
     fclose(file);
 
     original[strcspn(original, "\n")] = '\0';
-    //printf("Mensaje original:%s\n", original);
 
     while (original[i] >= '0' && original[i] <= '9') { 
         *n = (*n) * 10 + (original[i] - '0');
         i++;
     }
 
-    printf("Numero n: %d\n", *n);
+    //printf("Numero n: %d\n", *n);
 }
 
 void inicializa_alfabeto(char *alfabeto){
@@ -70,7 +70,7 @@ void inicializa_alfabeto(char *alfabeto){
 
 void codificar(char *original, char *codificado, char *alfabeto, int n){
     int i = 0, contador = 0;
-    strcpy(codificado, original);
+    strcpy(codificado, original); 
     segunda_etapa(codificado, original, n);
     primera_etapa(codificado, original, n);
 }
@@ -92,9 +92,9 @@ void primera_etapa(char *codificado, char *original, int n){
     for (i = contador + 1; i < strlen(original); i++){
         for (j = 0; j < (strlen(alfabeto)); j++){
             if (original[i] == alfabeto[j]){
-                z = j - k;
-                if(z < 0) {
-                    z = z + 47;
+                z = j + k;
+                if(z > 46) {
+                    z = z - 46;
                 }
                 codificado[i] = alfabeto[z];
                 break;
@@ -124,11 +124,13 @@ void segunda_etapa(char *codificado, char *original, int n){//segunda codificaci
     for (i = contador + 1; i < strlen(codificado); i++) {
         for (j = 0; j < 47; j++) {
             if (codificado[i] == alfabeto[j]) {
+                if (j % 2 == 0) {
                 z = j + k;
                 if (z > 46) {
-                    z = z - 47;
+                    z = z - 46;
                 }
                 codificado[i] = alfabeto[z];
+                }
                 break;
             }
         }

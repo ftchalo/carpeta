@@ -95,7 +95,7 @@ void primera_etapa(char *codificado, char *original, int n){
             if (original[i] == alfabeto[j]){
                 z = j - k;
                 if(z < 0) {
-                    z = z + 47;
+                    z = z + 46; // Asegura que el índice no sea negativo
                 }
                 codificado[i] = alfabeto[z];
                 break;
@@ -109,12 +109,12 @@ void primera_etapa(char *codificado, char *original, int n){
     }
 }
 
-void segunda_etapa(char *codificado, char *original, int n){//segunda codificacion
+void segunda_etapa(char *codificado, char *original, int n){
     int i = 0, j, z, k = n, contador = 0;
     char alfabeto[100];
     inicializa_alfabeto(alfabeto);
 
-    while (original[i] >= '0' && original[i] <= '9'){ //Cuenta las posiciones que usa el numero n dentro del array
+    while (original[i] >= '0' && original[i] <= '9'){ 
         contador++;
         i++;
     }
@@ -122,12 +122,12 @@ void segunda_etapa(char *codificado, char *original, int n){//segunda codificaci
         k = n % 47;        
     }
     
-    for (i = contador + 1; i < strlen(codificado) + 2; i++){
-        for (j = 0; j < 47; j += 2){
+    for (i = contador + 1; i < strlen(codificado); i++){ 
+        for (j = 0; j < 47; j == 2){
             if (codificado[i] == alfabeto[j] && (j % 2 == 0)){
                 z = j - k;
                 if (z < 0){
-                    z = z + 47;
+                    z = z + 46;
                 }
                 codificado[i] = alfabeto[z];
                 break;
