@@ -86,7 +86,7 @@ void primera_etapa(char *codificado, char *original, int n){
         i++;
     }
 
-    if (n > 47){
+    if (n > 46){
         k = n % 47;        
     }
         
@@ -95,7 +95,7 @@ void primera_etapa(char *codificado, char *original, int n){
             if (original[i] == alfabeto[j]){
                 z = j - k;
                 if(z < 0) {
-                    z = z + 46; // Asegura que el índice no sea negativo
+                    z = z + 47; // Asegura que el índice no sea negativo
                 }
                 codificado[i] = alfabeto[z];
                 break;
@@ -123,11 +123,11 @@ void segunda_etapa(char *codificado, char *original, int n){
     }
     
     for (i = contador + 1; i < strlen(codificado); i++){ 
-        for (j = 0; j < 47; j == 2){
+        for (j = 0; j < 47; j++){
             if (codificado[i] == alfabeto[j] && (j % 2 == 0)){
                 z = j - k;
                 if (z < 0){
-                    z = z + 46;
+                    z = z + 47;
                 }
                 codificado[i] = alfabeto[z];
                 break;

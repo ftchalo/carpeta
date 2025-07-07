@@ -40,8 +40,6 @@ void lee_original(char *original, int *n){
         *n = (*n) * 10 + (original[i] - '0');
         i++;
     }
-
-    //printf("Numero n: %d\n", *n);
 }
 
 void inicializa_alfabeto(char *alfabeto){
@@ -70,71 +68,66 @@ void inicializa_alfabeto(char *alfabeto){
 
 void codificar(char *original, char *codificado, char *alfabeto, int n){
     int i = 0, contador = 0;
-    strcpy(codificado, original); 
+    strcpy(codificado, original);
+    primera_etapa(codificado, original, n); 
     segunda_etapa(codificado, original, n);
-    primera_etapa(codificado, original, n);
 }
 
-//primera codificacion
 void primera_etapa(char *codificado, char *original, int n){
-    int i = 0, j, z, k = n, contador = 0;
+    int i = 0, j, z = 0, k = n, contador = 0;
     char alfabeto[100];
     inicializa_alfabeto(alfabeto);
-    while (original[i] >= '0' && original[i] <= '9'){ //Cuenta las posiciones que usa el numero n dentro del array
+    if (n > 46){
+        k = n % 46;        
+    }
+    while (original[i] >= '0' && original[i] <= '9'){ 
         contador++;
         i++;
     }
-
-    if (n > 47){
-        k = n % 47;        
-    }
-        
+    
     for (i = contador + 1; i < strlen(original); i++){
         for (j = 0; j < (strlen(alfabeto)); j++){
-            if (original[i] == alfabeto[j]){
+            if (original[i] == alfabeto[j] && (j % 2 == 0)){
                 z = j + k;
-                if(z > 46) {
-                    z = z - 46;
+                if (z > 46) {
+                    z = z - 47;
                 }
                 codificado[i] = alfabeto[z];
                 break;
             }
         }
     }
-
-    printf("Mensaje codificado: ");
+    printf("Descodificado primera etapa:");
     for (i = 0; i < (strlen(codificado)); i++){
         printf("%c", codificado[i]);
     }
 }
 
 void segunda_etapa(char *codificado, char *original, int n){//segunda codificacion
-    int i = 0, j, z, k = n, contador = 0;
+    int i = 0, j, z = 0, k = n, contador = 0;
     char alfabeto[100];
     inicializa_alfabeto(alfabeto);
-
     while (original[i] >= '0' && original[i] <= '9'){ //Cuenta las posiciones que usa el numero n dentro del array
         contador++;
         i++;
     }
-    if (n > 47) {
-        k = n % 47;        
+
+    if (n > 46){
+        k = n % 46;        
     }
-    
-    for (i = contador + 1; i < strlen(codificado); i++) {
-        for (j = 0; j < 47; j++) {
-            if (codificado[i] == alfabeto[j]) {
-                if (j % 2 == 0) {
+        
+    for (i = contador + 1; i < strlen(original); i++){
+        for (j = 0; j < 46; j++){
+            if (codificado[i] == alfabeto[j]){
                 z = j + k;
-                if (z > 46) {
-                    z = z - 46;
+                if(z > 46) {
+                    z = z - 47; // Asegura que el índice no sea negativo
                 }
                 codificado[i] = alfabeto[z];
-                }
                 break;
             }
         }
-}
+    }
 
     printf("\nMensaje descodificado segunda vez: ");
     for (i = 0; i < (strlen(codificado)); i++){
