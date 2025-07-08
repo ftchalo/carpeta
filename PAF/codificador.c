@@ -34,20 +34,17 @@ void lee_original(char *original, int *n){
     fclose(file);
 
     original[strcspn(original, "\n")] = '\0';
-    //printf("Mensaje original:%s\n", original);
 
-    while (original[i] >= '0' && original[i] <= '9') { 
+    while (original[i] >= '0' && original[i] <= '9') {  /*Obtiene el numero n*/
         *n = (*n) * 10 + (original[i] - '0');
         i++;
     }
-
-    printf("Numero n: %d\n", *n);
 }
 
 void inicializa_alfabeto(char *alfabeto){
     int i;   
 
-    for (i = 0; i < 26; i++) { //obtiene el abecedario ingles, del alfabeto ACSII
+    for (i = 0; i < 26; i++) { /*obtiene el abecedario ingles, del alfabeto ACSII*/
         alfabeto[i] = 'A' + i;
     }
     alfabeto[26] = ' ';
@@ -76,12 +73,11 @@ void codificar(char *original, char *codificado, char *alfabeto, int n){
 
 
 }
-//primera codificacion
 void primera_etapa(char *codificado, char *original, int n){
     int i = 0, j, z, k = n, contador = 0;
     char alfabeto[100];
     inicializa_alfabeto(alfabeto);
-    while (original[i] >= '0' && original[i] <= '9'){ //Cuenta las posiciones que usa el numero n dentro del array
+    while (original[i] >= '0' && original[i] <= '9'){ /*Cuenta las posiciones que usa el numero n dentro del array y las guarda en contador*/
         contador++;
         i++;
     }
@@ -95,17 +91,12 @@ void primera_etapa(char *codificado, char *original, int n){
             if (original[i] == alfabeto[j]){
                 z = j - k;
                 if(z < 0) {
-                    z = z + 47; // Asegura que el índice no sea negativo
+                    z = z + 47; /* Asegura que el índice no sea negativo*/
                 }
                 codificado[i] = alfabeto[z];
                 break;
             }
         }
-    }
-
-    printf("Mensaje codificado: ");
-    for (i = 0; i < (strlen(codificado)); i++){
-        printf("%c", codificado[i]);
     }
 }
 
@@ -118,12 +109,12 @@ void segunda_etapa(char *codificado, char *original, int n){
         contador++;
         i++;
     }
-    if (n > 47) {
+    if (n > 47) { /*si el numero n es mayor que el alfabeto, sacamos el modulo para usarlo como si fuera n < 47*/
         k = n % 47;        
     }
     
-    for (i = contador + 1; i < strlen(codificado); i++){ 
-        for (j = 0; j < 47; j++){
+    for (i = contador + 1; i < strlen(codificado); i++){
+        for (j = 0; j < strlen(alfabeto); j++){
             if (codificado[i] == alfabeto[j] && (j % 2 == 0)){
                 z = j - k;
                 if (z < 0){
@@ -134,18 +125,10 @@ void segunda_etapa(char *codificado, char *original, int n){
             }
         }
     }
-
-    printf("\nMensaje codificado segunda vez: ");
-    for (i = 0; i < (strlen(codificado)); i++){
-        printf("%c", codificado[i]);
-    }
 }
 
 void graba_mensaje(char *codificado){
     FILE *file = fopen("codificado.txt", "w");
-    if (file == NULL){
-        printf("Error al abrir el archivo para escribir.\n");
-    }
     fputs(codificado, file);
     fclose(file);
 }

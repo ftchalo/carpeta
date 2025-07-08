@@ -31,11 +31,8 @@ void lee_original(char *original, int *n){
     *n = 0;
     FILE *file = fopen("codificado.txt", "r");
     fgets(original, 100, file);
-    
     fclose(file);
-
     original[strcspn(original, "\n")] = '\0';
-
     while (original[i] >= '0' && original[i] <= '9') { 
         *n = (*n) * 10 + (original[i] - '0');
         i++;
@@ -45,7 +42,7 @@ void lee_original(char *original, int *n){
 void inicializa_alfabeto(char *alfabeto){
     int i;   
 
-    for (i = 0; i < 26; i++) { //obtiene el abecedario ingles, del alfabeto ACSII
+    for (i = 0; i < 26; i++) { /*obtiene el abecedario ingles, del alfabeto ACSII*/
         alfabeto[i] = 'A' + i;
     }
     alfabeto[26] = ' ';
@@ -87,13 +84,25 @@ void primera_etapa(char *codificado, char *original, int n){
     
     for (i = contador + 1; i < strlen(original); i++){
         for (j = 0; j < (strlen(alfabeto)); j++){
-            if (original[i] == alfabeto[j] && (j % 2 == 0)){
+            if (original[i] == alfabeto[j]){
+                if ((j + k) % 2 == 0 ){
                 z = j + k;
                 if (z > 46) {
                     z = z - 47;
                 }
                 codificado[i] = alfabeto[z];
+                } 
+                /*else {
+                    if (j % 2 == 0) {
+                        z = j + k;
+                        if (z > 46) {
+                            z = z - 47;
+                        }
+                        codificado[i] = alfabeto[z];
+                    }
+                }*/
                 break;
+                
             }
         }
     }
@@ -107,7 +116,7 @@ void segunda_etapa(char *codificado, char *original, int n){//segunda codificaci
     int i = 0, j, z = 0, k = n, contador = 0;
     char alfabeto[100];
     inicializa_alfabeto(alfabeto);
-    while (original[i] >= '0' && original[i] <= '9'){ //Cuenta las posiciones que usa el numero n dentro del array
+    while (original[i] >= '0' && original[i] <= '9'){ /*Cuenta las posiciones que usa el numero n dentro del array*/
         contador++;
         i++;
     }
@@ -117,11 +126,11 @@ void segunda_etapa(char *codificado, char *original, int n){//segunda codificaci
     }
         
     for (i = contador + 1; i < strlen(original); i++){
-        for (j = 0; j < 46; j++){
+        for (j = 0; j < strlen(alfabeto); j++){
             if (codificado[i] == alfabeto[j]){
                 z = j + k;
                 if(z > 46) {
-                    z = z - 47; // Asegura que el índice no sea negativo
+                    z = z - 47; /*Asegura que el índice no sea negativo*/
                 }
                 codificado[i] = alfabeto[z];
                 break;
