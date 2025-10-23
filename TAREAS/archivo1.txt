@@ -1,0 +1,5 @@
+Este es un archivo de ejemplo.
+Creado con funciones en ANSI C.
+Valores de ejemplo:
+Entero: 100
+Flotante: 3.14

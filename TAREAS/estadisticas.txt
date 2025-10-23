@@ -1,0 +1,8 @@
+=== ESTADISTICAS DEL ANALISIS ===
+
+Archivo analizado: archivo1.txt
+Total de lineas: 5
+Total de palabras: 17
+Promedio de palabras por linea: 3.40
+
+=== FIN DEL REPORTE ===
