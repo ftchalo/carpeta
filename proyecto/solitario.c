@@ -92,7 +92,6 @@ int bus_solu(JUEGO *j, int can_saltos) {
     for (r = 0; r < N; r++) {
         for (c = 0; c < N; c++) {
             if (j->tablero[r][c] != FICHA) continue;
-
             for (k = 0; k < 4; k++) {
                 int fila_salto = r + dir_filas[k];
                 int col_salto = c + dir_cols[k];
@@ -131,6 +130,5 @@ void print_solu(JUEGO *j) {
             printf("%d: posicion <%d,%d> a posicion <%d,%d> ", i + 1, j->sol_start_fila, j->sol_start_col, j->sol_fin_fila, j->sol_fin_col);
             printf ("\n");
         }
-
     }
 }
