@@ -4,7 +4,6 @@
  -Fecha de entrega: 26-10-2025
  -Tema: El solitario
  */ 
-
 #include <stdio.h>
 
 #define N 7
@@ -20,13 +19,12 @@ typedef struct juego {
     int start_col;
     int fin_fila;
     int fin_col;
-    //variables de control
-    int sol_start_fila;
-    int sol_start_col;
-    int sol_fin_fila;
-    int sol_fin_col;
+    //variables de control para la solución
+    int sol_start_fila[MAX_MOVIMIENTOS];
+    int sol_start_col[MAX_MOVIMIENTOS];
+    int sol_fin_fila[MAX_MOVIMIENTOS];
+    int sol_fin_col[MAX_MOVIMIENTOS];
     int mov_realizados;
-
 }JUEGO;
 
 void leer_solitario(JUEGO *juego);
@@ -40,7 +38,6 @@ int main() {
     JUEGO juego;
     leer_solitario(&juego);
     print_solu(&juego);
-
     return 0;
 }
 
@@ -107,6 +104,12 @@ int bus_solu(JUEGO *j, int can_saltos) {
                     j->tablero[fila_dest][col_dest] = FICHA;
 
                     if (bus_solu(j, can_saltos + 1)) {
+                        if (can_saltos < MAX_MOVIMIENTOS) {
+                            j->sol_start_fila[can_saltos] = r + 1;
+                            j->sol_start_col[can_saltos] = c + 1;
+                            j->sol_fin_fila[can_saltos] = fila_dest + 1;
+                            j->sol_fin_col[can_saltos] = col_dest + 1;
+                        }
                         return 1;
                     }
 
@@ -125,10 +128,10 @@ void print_solu(JUEGO *j) {
     
     if (bus_solu(j, 0)) {
         printf("Solucion encontrada en %d movimientos:\n", j->mov_realizados);
-
         for (i = 0; i < j->mov_realizados; i++) {
-            printf("%d: posicion <%d,%d> a posicion <%d,%d> ", i + 1, j->sol_start_fila, j->sol_start_col, j->sol_fin_fila, j->sol_fin_col);
-            printf ("\n");
+            printf("%d: posicion <%d,%d> a posicion <%d,%d>\n", i + 1,
+                   j->sol_start_fila[i], j->sol_start_col[i],
+                   j->sol_fin_fila[i], j->sol_fin_col[i]);
         }
-    }
+    } 
 }
