@@ -1,107 +1,136 @@
 /*
- -Autores: Gonzalo Fuenzalida, Ignacio Ávila 
+ -Autores: Gonzalo Fuenzalida, Ignacio Ávila
  -Fecha: 22-10-2025
- -Tema: El solitario 
+ -Fecha de entrega: 26-10-2025
+ -Tema: El solitario
  */ 
 
 #include <stdio.h>
-#include <string.h>
 
 #define N 7
 #define FICHA 'X'
 #define VACIO ' '
+#define INVALIDA 'O'
+#define MAX_MOVIMIENTOS 33
 
-void leer_solitario(char [N][N]);
-void imprimir_solitario(char [N][N]);
-int resolver(int, char[N][N]);
-int movimiento(char[N][N], int, int);
-int puede_moverse_(char[N][N], int, int);
+typedef struct juego {
+    char tablero[N][N];
+    //variables temporales
+    int start_fila;
+    int start_col;
+    int fin_fila;
+    int fin_col;
+    //variables de control
+    int sol_start_fila;
+    int sol_start_col;
+    int sol_fin_fila;
+    int sol_fin_col;
+    int mov_realizados;
 
+}JUEGO;
 
-int main(){
-    int n_movimientos = 0;
-    char solitario[N][N];
-    leer_solitario(solitario);
-    imprimir_solitario(solitario);
-    resolver(n_movimientos, solitario);
+void leer_solitario(JUEGO *juego);
+int objetivo(JUEGO *juego);
+int bus_solu(JUEGO *juego, int can_saltos);
+void print_solu(JUEGO *juego);
+int ubi_juego(JUEGO *juego);
+int contador_fichas(JUEGO *juego);
+
+int main() {
+    JUEGO juego;
+    leer_solitario(&juego);
+    print_solu(&juego);
 
     return 0;
 }
 
-void leer_solitario(char solitario[N][N]){
+void leer_solitario(JUEGO *juego) {
     int i, j;
-    for (i = 0; i < N; i++){
-        for (j = 0; j < N; j++){
-            scanf("%c", &solitario[i][j]);
-            if(solitario[i][j] == '\n'){
+    for (i = 0; i < N; i++) {
+        for (j = 0; j < N; j++) {
+            scanf("%c", &juego->tablero[i][j]);
+            if (juego->tablero[i][j] == '\n') {
                 j--;
             }
         }
-    }
-}
 
-void imprimir_solitario(char solitario[N][N]){
-    int i, j;
-    for (i = 0; i < N; i++){
-        for (j = 0; j < N; j++){
-            printf("%c", solitario[i][j]);
+    }
+    for (i = 0; i < N; i++) {
+        for (j = 0; j < N; j++) {
+            printf("%c", juego->tablero[i][j]);
         }
         printf("\n");
-    }
+    }   
 }
 
-int resolver(int n_movimientos, char solitario[N][N]){
-    int i, j, k, si, sj, ni, nj;
-    int di[4] = {0, 0, 1, -1};
-    int dj[4] = {1, -1, 0, 0};
+int objetivo(JUEGO *j) {
+    if (contador_fichas(j) != 1) return 0;
+    return j->tablero[3][3] == FICHA;
+}
 
-    for (i = 0; i < N; i++){
-        for (j = 0; j < N; j++){
-            if (solitario[i][j] == FICHA){
-                for (k = 0; k < 4; k++){
-                    ni = i + di[k]; nj = j + dj[k];
-                    si = i + 2*di[k]; sj = j + 2*dj[k];
+int contador_fichas(JUEGO *j) {
+    int i, k, c = 0;
+    for (i = 0; i < N; i++) {
+        for (k = 0; k < N; k++) {
+            if (j->tablero[i][k] == FICHA) {
+                c++;
+            }
+        }
+    }
+    return c; 
+}
 
-                    // comprobar límites
-                    if (ni < 0 || ni >= N || nj < 0 || nj >= N) continue;
-                    if (si < 0 || si >= N || sj < 0 || sj >= N) continue;
+int bus_solu(JUEGO *j, int can_saltos) {
+    if (objetivo(j)) {
+        j->mov_realizados = can_saltos;
+        return 1;
+    }
+    int r, c, k;
+    int dir_filas[] = {-1, 1, 0, 0};
+    int dir_cols[]  = {0, 0, -1, 1};
 
-                    // comprobaciones de movimiento: vecino 'X' y destino ' ' (vacío)
-                    if (solitario[ni][nj] == FICHA && solitario[si][sj] == VACIO){
-                        // realizar movimiento
-                        solitario[i][j] = VACIO;
-                        solitario[ni][nj] = VACIO;
-                        solitario[si][sj] = FICHA;
+    for (r = 0; r < N; r++) {
+        for (c = 0; c < N; c++) {
+            if (j->tablero[r][c] != FICHA) continue;
 
-                        if (resolver(n_movimientos + 1, solitario)) {
-                            printf("%d: posicion <%d,%d> a posicion <%d,%d>\n", n_movimientos + 1, i + 1, j + 1, si + 1, sj + 1);
-                            return 1;
-                        }
+            for (k = 0; k < 4; k++) {
+                int fila_salto = r + dir_filas[k];
+                int col_salto = c + dir_cols[k];
+                int fila_dest = r + 2 * dir_filas[k];
+                int col_dest = c + 2 * dir_cols[k];
 
-                        // deshacer movimiento
-                        solitario[i][j] = FICHA;
-                        solitario[ni][nj] = FICHA;
-                        solitario[si][sj] = VACIO;
+                if (fila_salto < 0 || fila_salto >= N || col_salto < 0 || col_salto >= N ||
+                    fila_dest < 0 || fila_dest >= N || col_dest < 0 || col_dest >= N)continue;
+
+                if (j->tablero[fila_salto][col_salto] == FICHA && j->tablero[fila_dest][col_dest] == VACIO) {
+                    j->tablero[r][c] = VACIO;
+                    j->tablero[fila_salto][col_salto] = VACIO;
+                    j->tablero[fila_dest][col_dest] = FICHA;
+
+                    if (bus_solu(j, can_saltos + 1)) {
+                        return 1;
                     }
+
+                    j->tablero[r][c] = FICHA;
+                    j->tablero[fila_salto][col_salto] = FICHA;
+                    j->tablero[fila_dest][col_dest] = VACIO;
                 }
             }
         }
     }
-    return 0;
+    return 0; //en caso de que no haya solucion por este sector
 }
 
-int movimiento(char solitario[N][N], int i, int j){
-    solitario[i][j] = 'O';
-    solitario[i][j + 1] = 'O';
-    solitario[i][j + 2] = FICHA;
+void print_solu(JUEGO *j) {
+    int i, k, r;
+    
+    if (bus_solu(j, 0)) {
+        printf("Solucion encontrada en %d movimientos:\n", j->mov_realizados);
 
-    return 0;
-}
+        for (i = 0; i < j->mov_realizados; i++) {
+            printf("%d: posicion <%d,%d> a posicion <%d,%d> ", i + 1, j->sol_start_fila, j->sol_start_col, j->sol_fin_fila, j->sol_fin_col);
+            printf ("\n");
+        }
 
-int puede_moverse_(char solitario[N][N], int x, int y){
-    if (solitario[x][y] == 'O' && solitario[x][y + 1] == 'O' && solitario[x][y + 2] == 'X'){
-                    movimiento(solitario, x, y);
-                    return 1;
-                }
-    return 0;
+    }
 }
