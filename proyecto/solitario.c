@@ -82,34 +82,35 @@ int bus_solu(JUEGO *j, int can_saltos) {
 
     for (r = 0; r < N; r++) {
         for (c = 0; c < N; c++) {
-            if (j->tablero[r][c] != FICHA) continue; //Si no es una ficha, saltar el ciclo
-            for (k = 0; k < 4; k++) {                //Recorrer los 4 posibles saltos
-                int fila_salto = r + dir_filas[k]; 
-                int col_salto = c + dir_cols[k];    
-                int fila_dest = r + 2 * dir_filas[k];
-                int col_dest = c + 2 * dir_cols[k];
+            if (j->tablero[r][c] == FICHA) { //Si no es una ficha, saltar el ciclo
+                for (k = 0; k < 4; k++) {                //Recorrer los 4 posibles saltos
+                    int fila_salto = r + dir_filas[k]; 
+                    int col_salto = c + dir_cols[k];    
+                    int fila_dest = r + 2 * dir_filas[k];
+                    int col_dest = c + 2 * dir_cols[k];
 
-                if (fila_salto < 0 || fila_salto >= N || col_salto < 0 || col_salto >= N ||
-                    fila_dest < 0 || fila_dest >= N || col_dest < 0 || col_dest >= N) continue; //Verificar que no se salga del tablero, si no, saltar el ciclo
+                    if (fila_salto < 0 || col_salto < 0 || col_salto >= N ||
+                        fila_dest < 0 || fila_dest >= N || col_dest < 0 || col_dest >= N) continue; //Verificar que no se salga del tablero, si no, saltar el ciclo (for)
 
-                if (j->tablero[fila_salto][col_salto] == FICHA && j->tablero[fila_dest][col_dest] == VACIO) {
-                    j->tablero[r][c] = VACIO;
-                    j->tablero[fila_salto][col_salto] = VACIO;
-                    j->tablero[fila_dest][col_dest] = FICHA;
+                    if (j->tablero[fila_salto][col_salto] == FICHA && j->tablero[fila_dest][col_dest] == VACIO) {
+                        j->tablero[r][c] = VACIO;
+                        j->tablero[fila_salto][col_salto] = VACIO;
+                        j->tablero[fila_dest][col_dest] = FICHA;
 
-                    if (bus_solu(j, can_saltos + 1)) { //Si se puede solucionar, se agrega al vector de soluciones
-                        if (can_saltos < MAX_MOVIMIENTOS) {
-                            j->sol_start_fila[can_saltos] = r + 1;
-                            j->sol_start_col[can_saltos] = c + 1;
-                            j->sol_fin_fila[can_saltos] = fila_dest + 1;
-                            j->sol_fin_col[can_saltos] = col_dest + 1;
+                        if (bus_solu(j, can_saltos + 1)) { //Si se puede solucionar, se agrega al vector de soluciones
+                            if (can_saltos < MAX_MOVIMIENTOS) {
+                                j->sol_start_fila[can_saltos] = r + 1;
+                                j->sol_start_col[can_saltos] = c + 1;
+                                j->sol_fin_fila[can_saltos] = fila_dest + 1;
+                                j->sol_fin_col[can_saltos] = col_dest + 1;
+                            }
+                            return 1;
                         }
-                        return 1;
+                        //Deshacer el movimiento en caso de que no haya solucion en este salto
+                        j->tablero[r][c] = FICHA;
+                        j->tablero[fila_salto][col_salto] = FICHA;
+                        j->tablero[fila_dest][col_dest] = VACIO;
                     }
-                    //Deshacer el movimiento en caso de que no haya solucion en este salto
-                    j->tablero[r][c] = FICHA;
-                    j->tablero[fila_salto][col_salto] = FICHA;
-                    j->tablero[fila_dest][col_dest] = VACIO;
                 }
             }
         }
