@@ -46,7 +46,7 @@ void leer_solitario(JUEGO *juego) {
     for (i = 0; i < N; i++) {
         for (j = 0; j < N; j++) {
             scanf("%c", &juego->tablero[i][j]);
-            if (juego->tablero[i][j] == '\n') {
+            if (juego->tablero[i][j] == '\n') { //Si se lee un salto de línea, repetir la lectura en la misma posición
                 j--;
             }
         }
