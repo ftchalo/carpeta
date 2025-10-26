@@ -53,6 +53,7 @@ void leer_solitario(JUEGO *juego) {
     }
 }
 
+//Función que verifica si el juego ha llegado al objetivo (la unica ficha en el centro)
 int objetivo(JUEGO *j) {
     if (contador_fichas(j) != 1) return 0;
     return j->tablero[3][3] == FICHA;
