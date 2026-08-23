@@ -24,4 +24,13 @@ flujo_solicitudes(Solicitudes, Aceptado, Rechazao):-
 porcesar_fluujo([], _, [], []).
 
 %caso 2: procesar solicitud siguiente (recursivo).
+
+%BORRAME--------------------------------------------------------
+%la idea es que funcione como un ciclo que toma la solicitudes, procesa la que está hasta "arriba".
+%y es la que tomará la decisión, tambien tiene que actualizar los registros. Despues que se vuelva a llamar.
+%a si mismo para hacer la recursividad y pasar al siguiente solicitud.
+%BORRAME--------------------------------------------------------
+
+%((((motor central del programa)))))
 porcesar_fluujo([solicitud(ReqID, Franja, Asistentes, ReqEquip) | Resto], EstadoActual, Asignadas, Rechazadas) :-
+
