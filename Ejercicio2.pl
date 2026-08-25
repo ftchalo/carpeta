@@ -42,14 +42,26 @@ procesar_flujo([solicitud(_reqID, _franja, _asistentes, _reqEquip) | _resto], _e
 asignar_sala(_franja, _asistentes, _reqEquip, _estadoActual, _salaID):-
     sala(_salaID, _capacidad, _equipamiento),
     _capacidad #>= _asistentes,
-    objetos(_reqEquip, _equipamiento),
+    subset(_reqEquip, _equipamiento),
     \+ member(asignacion(_, _salaID, _franja), _estadoActual), !.
 
 % Logica que se usara para implementar el rechazo.
 det_motivo(_asistentes, _reqEquip, _, _, _motivo) :-
     (   \+ (sala(_, _capacidad, _), _capacidad #>= _asistentes)
     ->  _motivo = capacidad_insuficiente
-    ;   \+ (sala(_, _, _equipamiento), objetos(_reqEquip, _equipamiento))
+    ;   \+ (sala(_, _, _equipamiento), subset(_reqEquip, _equipamiento))
     ->  _motivo = equipamiento_insuficiente
     ;   _motivo = sin_disponibilidad_en_franja
     ).
+
+
+
+pedir_datos :-
+    format('Ingresa lista de solicitudes y termina con un punto (.):~n~n'),
+    format('formato [solicitud("cantidad", (manana, tarde, noche), "cantidad de personas", [equipo])].~n~n'),
+    format('formato ejemplo: [solicitud(1, manana, 5, [pizarra]).~n~n'),
+    read(SolicitudesIngresadas),
+    procesar_flujo(SolicitudesIngresadas, [], Aceptadas, Rechazadas),
+    format('~n--- RESULTADOS DE LA ASIGNACION ---~n'),
+    format('~nSalas Aceptadas: ~w~n', [Aceptadas]),
+    format('~nSalas Rechazadas: ~w~n', [Rechazadas]).    
