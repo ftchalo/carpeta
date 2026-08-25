@@ -54,14 +54,24 @@ det_motivo(_asistentes, _reqEquip, _, _, _motivo) :-
     ;   _motivo = sin_disponibilidad_en_franja
     ).
 
-
-
 pedir_datos :-
     format('Ingresa lista de solicitudes y termina con un punto (.):~n~n'),
     format('formato [solicitud("cantidad", (manana, tarde, noche), "cantidad de personas", [equipo])].~n~n'),
     format('formato ejemplo: [solicitud(1, manana, 5, [pizarra]).~n~n'),
-    read(SolicitudesIngresadas),
-    procesar_flujo(SolicitudesIngresadas, [], Aceptadas, Rechazadas),
+    read(_solicitudesIngresadas),
+    procesar_flujo(_solicitudesIngresadas, [], _aceptadas, _rechazadas),
     format('~n--- RESULTADOS DE LA ASIGNACION ---~n'),
-    format('~nSalas Aceptadas: ~w~n', [Aceptadas]),
-    format('~nSalas Rechazadas: ~w~n', [Rechazadas]).    
+    
+    %Imprimir lista aceptadas de solicitudes.
+    format('~nSalas Aceptadas:~n'),
+    imprimir_lista(_aceptadas),
+
+    %Imprimir lista Rechazadas de solicitudes.
+    format('~nSalas Rechazadas:~n'),
+    imprimir_lista(_rechazadas).
+
+%Regla para imprimir datos como en una lista
+imprimir_lista([]).
+imprimir_lista([_elemento | _resto]):-
+    format('  ~w~n', [_elemento]),
+    imprimir_lista(_resto).
