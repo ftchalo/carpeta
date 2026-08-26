@@ -1,3 +1,12 @@
+%Ejercicio numero 2
+
+%Autores:
+%Gonzalo Fuenzalida Pérez
+%Trinidad Morales
+%Matias Saldias
+%Rodrigo Rosales
+%Bastian Salvo
+
 :- use_module(library(clpfd)).
 
 % en prolog la declaracion de variables es basicamente cualquier nombre que empiece por mayuscula o "_".
@@ -6,10 +15,11 @@
 % se declararan constantes usando el concepto de Atomos(constantes).
 % consiste en declarar variables fijas las cuales no cambiaran su contenido a lo largo del codigo.
 
+%para este caso usaremos 3 salas, de ser necesario podrian agregarse mas bajo el siguiente formato.
 % salas fijas: sala((ID), _capacidad, [equipamiento]).
 sala(sala_1, 10, [pizarra]).
-sala(sala_2, 20, [pizarra]).
-sala(sala_3, 50, [pizarra]).
+sala(sala_2, 20, [proyector]).
+sala(sala_3, 50, [computadora]).
 
 % 2. al no existir funciones en prolog se crearan "reglas" las cuales contendran.
 % el catalogo. flujo_solicitudes(_solicitudes, _aceptado, _rechazo):-.
@@ -53,6 +63,8 @@ det_motivo(_asistentes, _reqEquip, _, _, _motivo) :-
     ->  _motivo = equipamiento_insuficiente
     ;   _motivo = sin_disponibilidad_en_franja
     ).
+
+
 
 pedir_datos :-
     format('Ingresa lista de solicitudes y termina con un punto (.):~n~n'),
