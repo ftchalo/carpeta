@@ -7,6 +7,8 @@
 %Rodrigo Rosales
 %Bastian Salvo
 
+
+%la declaracion de ia estara en el documento del ejercicio numero 1 junto con el link de la conversacion,
 :- use_module(library(clpfd)).
 
 % en prolog la declaracion de variables es basicamente cualquier nombre que empiece por mayuscula o "_".
@@ -32,7 +34,15 @@ flujo_solicitudes(_solicitudes, _aceptado, _rechazo):-
 procesar_flujo([], _, [], []).
 
 % caso 2: procesar solicitud siguiente (recursivo).
-% (((((motor central del programa)))))
+% (motor central del programa)
+
+%----------------------------------------------------------------------------------
+% PUNTO 1 DEL PARADIGMA: UNIFICACIÓN Y PATTERN MATCHING (Listas y Estructuras)
+% A diferencia del paradigma imperativo el cual utiliza (for/while)
+% aqui el paradigma logico determina la solucion "desarmando" la lista y la estructura 
+% "solicitud(...)" de forma automatica al unificarlas en el principio de la regla.
+%----------------------------------------------------------------------------------
+
 procesar_flujo([solicitud(_reqID, _franja, _asistentes, _reqEquip) | _resto], _estadoActual, _asignadas, _rechazadas) :-
     
     (   asignar_sala(_franja, _asistentes, _reqEquip, _estadoActual, _salaID)
@@ -50,12 +60,26 @@ procesar_flujo([solicitud(_reqID, _franja, _asistentes, _reqEquip) | _resto], _e
 
 % Restricciones y condiciones para agregar a una sala.
 asignar_sala(_franja, _asistentes, _reqEquip, _estadoActual, _salaID):-
+
+    %----------------------------------------------------------------------------------
+    % PUNTO 2 DEL PARADIGMA: BUSQUEDA IMPLICITA Y BACKTRACKING (Base de Conocimientos)
+    % El paradigma determina la solucion de forma declarativa. No le decimos "como" 
+    % buscar una sala (no hay iteradores sobre un array de salas). Al declarar 
+    % "sala(_salaID, _capacidad, _equipamiento)", Prolog usa su motor de inferencia 
+    % (backtracking) para buscar automaticamente entre los hechos la primera sala que 
+    % cumpla con esta relacion y las restricciones logicas que le siguen (#>=).
+    %----------------------------------------------------------------------------------
+
     sala(_salaID, _capacidad, _equipamiento),
     _capacidad #>= _asistentes,
     subset(_reqEquip, _equipamiento),
     \+ member(asignacion(_, _salaID, _franja), _estadoActual), !.
 
 % Logica que se usara para implementar el rechazo.
+% En la programación logica estricta, la verdad se deduce si algo se puede probar.
+% Aqui se determina la solución (el motivo del rechazo) comprobando si el motor 
+% "falla" al intentar probar que existe una sala con capacidad suficiente. Si 
+% no puede probarlo, asume que es falso y asigna el motivo.
 det_motivo(_asistentes, _reqEquip, _, _, _motivo) :-
     (   \+ (sala(_, _capacidad, _), _capacidad #>= _asistentes)
     ->  _motivo = capacidad_insuficiente
