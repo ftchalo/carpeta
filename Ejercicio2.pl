@@ -76,7 +76,7 @@ asignar_sala(_franja, _asistentes, _reqEquip, _estadoActual, _salaID):-
     \+ member(asignacion(_, _salaID, _franja), _estadoActual), !.
 
 % Logica que se usara para implementar el rechazo.
-% En la programación logica estricta, la verdad se deduce si algo se puede probar.
+% En la programacion logica estricta, la verdad se deduce si algo se puede probar.
 % Aqui se determina la solución (el motivo del rechazo) comprobando si el motor 
 % "falla" al intentar probar que existe una sala con capacidad suficiente. Si 
 % no puede probarlo, asume que es falso y asigna el motivo.
