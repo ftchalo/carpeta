@@ -37,7 +37,7 @@ procesar_flujo([], _, [], []).
 % (motor central del programa)
 
 %----------------------------------------------------------------------------------
-% PUNTO 1 DEL PARADIGMA: UNIFICACIÓN Y PATTERN MATCHING (Listas y Estructuras)
+% PUNTO 1 DEL PARADIGMA: UNIFICACION Y PATTERN MATCHING (Listas y Estructuras)
 % A diferencia del paradigma imperativo el cual utiliza (for/while)
 % aqui el paradigma logico determina la solucion "desarmando" la lista y la estructura 
 % "solicitud(...)" de forma automatica al unificarlas en el principio de la regla.
